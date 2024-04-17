@@ -47,17 +47,24 @@ uploaded_file = st.file_uploader("Upload Your Resume (PDF): ", type = ['pdf'])
 if uploaded_file is not None:
     st.write("File Uploaded Successfully")
 
-submit1 = st.button("Percentage Match: ")
-submit2 = st.button("How can I improvise my skills ?")
+submit1 = st.button("Summary of your resume")
+submit2 = st.button("Percentage Match")
+submit3 = st.button("How can I improvise my skills ?")
 
 input_prompt1 = """
+ You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
+ your task is to highlight and summarize all the things mentioned in the resume in image format.
+"""
+
+input_prompt2 = """
 You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
-your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
+your task is to evaluate the resume provided in image provided against the provided job description in the prompt. give me the percentage of match if the resume in image matches
 the job description. First the output should come as percentage and then keywords missing and last final thoughts.
 """
-input_prompt2 = """
- You are an experienced Technical Human Resource Manager,your task is to review the provided resume in image against the job description in the prompt. 
-  Please mention how the candidate can improvise their skills in resume to match the job description.
+
+input_prompt3 = """
+ You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
+your task is to evaluate the resume provided in image provided against the provided job description in the prompt. give me the ways to improvise the skills mentioned in resume so that it matches the job description.
 """
 
 if submit1:
@@ -73,6 +80,15 @@ elif submit2:
     if uploaded_file is not None:
         pdf_content=input_pdf_setup(uploaded_file)
         response=get_gemini_response(input_prompt2, pdf_content, input_text)
+        st.subheader("The Repsonse is")
+        st.write(response)
+    else:
+        st.write("Please uplaod the resume")
+
+elif submit3:
+    if uploaded_file is not None:
+        pdf_content=input_pdf_setup(uploaded_file)
+        response=get_gemini_response(input_prompt3, pdf_content, input_text)
         st.subheader("The Repsonse is")
         st.write(response)
     else:
